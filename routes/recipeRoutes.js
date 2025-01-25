@@ -7,6 +7,7 @@ const {
   browseRecipes,
   searchRecipes,
   filterRecipes,
+  getRecipeById,
 } = require("../controllers/recipeController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -16,6 +17,7 @@ const router = express.Router();
 router.get("/", browseRecipes); // Browse all recipes
 router.get("/search", searchRecipes); // Search recipes
 router.get("/filter", filterRecipes); // Filter recipes
+router.get("/:recipeId", getRecipeById);
 
 // Protected routes (require authentication)
 router.use(authMiddleware);

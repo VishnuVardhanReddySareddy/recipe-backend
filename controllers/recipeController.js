@@ -210,6 +210,27 @@ const filterRecipes = async (req, res) => {
   }
 };
 
+// Get a single recipe by ID
+const getRecipeById = async (req, res) => {
+  const { recipeId } = req.params;
+
+  try {
+    const recipe = await Recipe.findByPk(recipeId, {
+      include: [{ model: User, attributes: ["username"] }], // Include user details
+    });
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json(recipe);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching recipe", error: err.message });
+  }
+};
+
 module.exports = {
   createRecipe,
   editRecipe,
@@ -217,4 +238,5 @@ module.exports = {
   browseRecipes,
   searchRecipes,
   filterRecipes,
+  getRecipeById, // Add this
 };
